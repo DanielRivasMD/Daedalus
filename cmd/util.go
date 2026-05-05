@@ -23,6 +23,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 
@@ -39,7 +40,9 @@ func applyReplacements(content string, reps []replacement) string {
 		for _, rep := range reps {
 			switch rep.mode {
 			case "line":
-				if strings.Contains(line, rep.old) {
+				pattern := `\b` + regexp.QuoteMeta(rep.old) + `\b`
+				re := regexp.MustCompile(pattern)
+				if re.MatchString(line) {
 					lines[i] = rep.new
 				}
 			default: // "token" or empty
@@ -54,7 +57,7 @@ func applyReplacements(content string, reps []replacement) string {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func catFiles(options rootFlag) error {
-	op := "cat"
+	op := "mbombo.cat"
 
 	overwrite := false
 	if len(options.inFiles) == 1 && options.inFiles[0] == options.outFile {
@@ -186,7 +189,7 @@ func (r *replaceFlags) String() string {
 }
 
 func (r *replaceFlags) Set(val string) error {
-	op := "flag.set"
+	op := "mbombo.flag"
 
 	parts := strings.SplitN(val, "=", 2)
 	if len(parts) != 2 {
