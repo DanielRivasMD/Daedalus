@@ -21,10 +21,10 @@ Forge unified products from templates with intelligent text replacement
     │ • Input directory (--in)  │ │   ("old=new")             │ │   (--out)                 │
     │                           │ │                           │ │                           │
     │                           │ │ • Line replacements       │ │ • Can overwrite source    │
-    │                           │ │   ("old=new:line")        │ │   if single file          │
+    │                           │ │   ("old=new:line")        │ │                           │
     │                           │ │                           │ │                           │
-    │                           │ │ • Multiple pairs allowed  │ │ • Preserves directory     │
-    │                           │ │   (comma-separated)       │ │   structure               │
+    │                           │ │ • Multiple pairs allowed  │ │                           │
+    │                           │ │   (comma-separated)       │ │                           │
     └───────────────────────────┘ └───────────────────────────┘ └───────────────────────────┘
                                         │
                         ┌───────────────┴───────────────┐
@@ -87,12 +87,6 @@ Forge unified products from templates with intelligent text replacement
     │  ╚═══════════════════════════════════════════════════════════════════════╝  │
     │                                                                             │
     └─────────────────────────────────────────────────────────────────────────────┘
-
-## Installation
-
-### Language-Specific
-
-    Go:  go install github.com/DanielRivasMD/Mbombo@latest
 
 ## License
 
