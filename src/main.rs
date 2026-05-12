@@ -12,32 +12,47 @@ use regex::Regex;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// CLI definition
-#[derive(Parser)]
-#[command(
-    name = "mbombo",
-    version = "3.0.0",
-    author = "Daniel Rivas <danielrivasmd@gmail.com>",
-    about = "Forge by defining the materials, the destination & indicate pieces to replace",
-    long_about = r"Command line file forger
+const IDENTITY: &str = r#"
+Mbombo, also called Bumba, is the creator god in the religion and mythology of the Kuba people of Central Africa in the area that is now known as Democratic Republic of the Congo
+
+In the Mbombo creation myth, Mbombo was a giant in form and white in color. The myth describes the creation of the universe from nothing
+
+Role: Mbombo is considered a creator god in Bushongo mythology
+Creation story: According to legend, in the beginning, there was only darkness and water, and Mbombo was the only being. He was a giant, pale god who eventually felt pain in his stomach and vomited up the sun, moon, stars, and then the Earth itself, including animals and people
+Symbolism: His creation of the world through vomiting is unique and symbolic, often interpreted as a metaphor for creative force through suffering or sacrifice
+Assistants: After creation, Mbombo delegated tasks to his sons and some of the first humans and animals to help finish shaping the world
+"#;
+
+const HELP: &str = r"Command line file forger
 
 Examples:
   mbombo --files header.html footer.html --out output/page.html
   mbombo --files config.tmpl --out config.json --replace VERSION=1.0.0 API_URL=https://api.example.com
   mbombo --in templates/ --files base.tmpl nav.tmpl --out build/index.html --replace {{YEAR}}=2026:token {{AUTHOR}}=Daniel:token
   mbombo --files script.js --out dist/script.min.js --replace console.log=:line
-  mbombo --files README.md --out README.md --replace v0.0.0=v1.2.3"
+  mbombo --files README.md --out README.md --replace v0.0.0=v1.2.3";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#[derive(Parser)]
+#[command(
+    name = env!("CARGO_PKG_NAME"),
+    version = env!("CARGO_PKG_VERSION"),
+    author = env!("CARGO_PKG_AUTHORS"),
+    about = env!("CARGO_PKG_DESCRIPTION"),
+    before_help = concat!(env!("CARGO_PKG_AUTHORS"), "\n", env!("CARGO_PKG_NAME"), " v", env!("CARGO_PKG_VERSION")),
+    long_about = HELP,
 )]
 struct Cli {
     /// Items to be forged (optional input directory)
     #[arg(long)]
     r#in: Option<String>,
 
-    /// Path to forge (required)
+    /// Path to forge
     #[arg(long)]
     out: Option<String>,
 
-    /// Forge components (required, one or more)
+    /// Forge components (one or more)
     #[arg(long, num_args = 1.., value_name = "FILE")]
     files: Option<Vec<String>>,
 
@@ -50,7 +65,7 @@ struct Cli {
     #[arg(short = 'v', long)]
     verbose: bool,
 
-    /// Show identity/myth
+    /// Show identity / myth
     #[arg(long)]
     identity: bool,
 
@@ -94,19 +109,6 @@ impl std::str::FromStr for Replacement {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Identity text
-const IDENTITY: &str = r#"
-Mbombo, also called Bumba, is the creator god in the religion and mythology of the Kuba people of Central Africa in the area that is now known as Democratic Republic of the Congo
-
-In the Mbombo creation myth, Mbombo was a giant in form and white in color. The myth describes the creation of the universe from nothing
-
-Role: Mbombo is considered a creator god in Bushongo mythology
-Creation story: According to legend, in the beginning, there was only darkness and water, and Mbombo was the only being. He was a giant, pale god who eventually felt pain in his stomach and vomited up the sun, moon, stars, and then the Earth itself, including animals and people
-Symbolism: His creation of the world through vomiting is unique and symbolic, often interpreted as a metaphor for creative force through suffering or sacrifice
-Assistants: After creation, Mbombo delegated tasks to his sons and some of the first humans and animals to help finish shaping the world
-"#;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Helper functions
 fn apply_replacements(content: &str, replacements: &[Replacement]) -> String {
