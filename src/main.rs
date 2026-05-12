@@ -76,7 +76,6 @@ struct Cli {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Replacement type (implements FromStr for clap)
 #[derive(Debug, Clone)]
 struct Replacement {
     old: String,
@@ -89,14 +88,12 @@ impl std::str::FromStr for Replacement {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let (old, rest) = s.split_once('=').ok_or("invalid replace pair")?;
-        let mut mode = "token";
-        let new_val = if rest.ends_with(":line") {
-            mode = "line";
-            &rest[..rest.len() - ":line".len()]
-        } else if rest.ends_with(":token") {
-            &rest[..rest.len() - ":token".len()]
+        let (mode, new_val) = if let Some(stripped) = rest.strip_suffix(":line") {
+            ("line", stripped)
+        } else if let Some(stripped) = rest.strip_suffix(":token") {
+            ("token", stripped)
         } else {
-            rest
+            ("token", rest)
         };
 
         Ok(Replacement {
@@ -109,8 +106,6 @@ impl std::str::FromStr for Replacement {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-// Helper functions
 fn apply_replacements(content: &str, replacements: &[Replacement]) -> String {
     let mut lines: Vec<String> = content.lines().map(|s| s.to_string()).collect();
 
@@ -150,14 +145,14 @@ fn apply_replacements(content: &str, replacements: &[Replacement]) -> String {
 /// - Split the output path into `out_dir` and `out_file`
 fn normalize_paths(
     in_flag: Option<&str>,
-    files: &mut Vec<String>,
+    files: &mut [String],
     out_flag: &str,
 ) -> (Option<PathBuf>, PathBuf, String) {
     // Determine in_path from --in or from first file
     let mut in_path = in_flag.map(PathBuf::from);
     if files.len() == 1 {
         let full = Path::new(&files[0]);
-        if full.parent().map_or(false, |p| p != Path::new(""))
+        if full.parent().is_some_and(|p| p != Path::new(""))
             && files[0].contains(std::path::MAIN_SEPARATOR)
         {
             in_path = full.parent().map(|p| p.to_path_buf());
@@ -170,7 +165,7 @@ fn normalize_paths(
 
     // Determine out_dir and out_file
     let out = Path::new(out_flag);
-    let (out_dir, out_file) = if out.parent().map_or(false, |p| p != Path::new(""))
+    let (out_dir, out_file) = if out.parent().is_some_and(|p| p != Path::new(""))
         && out_flag.contains(std::path::MAIN_SEPARATOR)
     {
         (
