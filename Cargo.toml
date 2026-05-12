@@ -3,10 +3,8 @@ name = "mbombo"
 version = "3.0.0"
 authors = ["Daniel Rivas <danielrivasmd@gmail.com>"]
 repository = "https://github.com/DanielRivasMD/Mbombo"
-keywords = []
-categories = []
 readme = "README.md"
-description = ""
+description = "Forge by defining the materials, the destination & indicate pieces to replace"
 edition = "2021"
 
 [dependencies]
