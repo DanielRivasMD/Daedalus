@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use std::process;
 
 use anyhow::{Context, Result};
-use clap::{CommandFactory, Parser, ValueEnum};
+use clap::{CommandFactory, Parser};
 use clap_complete::{generate, Shell};
 use regex::Regex;
 
@@ -34,12 +34,12 @@ struct Cli {
     r#in: Option<String>,
 
     /// Path to forge (required)
-    #[arg(long, required = true)]
-    out: String,
+    #[arg(long)]
+    out: Option<String>,
 
     /// Forge components (required, one or more)
-    #[arg(long, required = true, num_args = 1.., value_name = "FILE")]
-    files: Vec<String>,
+    #[arg(long, num_args = 1.., value_name = "FILE")]
+    files: Option<Vec<String>>,
 
     /// Replacement in form old=new, space-separated.
     /// Append :line for whole line replacement, :token for token replacement (default)
@@ -96,13 +96,9 @@ impl std::str::FromStr for Replacement {
 
 // Identity text
 const IDENTITY: &str = r#"
-Mbombo, also called Bumba, is the creator god in the religion
-and mythology of the Kuba people of Central Africa in the area
-that is now known as Democratic Republic of the Congo
+Mbombo, also called Bumba, is the creator god in the religion and mythology of the Kuba people of Central Africa in the area that is now known as Democratic Republic of the Congo
 
-In the Mbombo creation myth, Mbombo was a giant in form and
-white in color. The myth describes the creation of the universe
-from nothing
+In the Mbombo creation myth, Mbombo was a giant in form and white in color. The myth describes the creation of the universe from nothing
 
 Role: Mbombo is considered a creator god in Bushongo mythology
 Creation story: According to legend, in the beginning, there was only darkness and water, and Mbombo was the only being. He was a giant, pale god who eventually felt pain in his stomach and vomited up the sun, moon, stars, and then the Earth itself, including animals and people
@@ -290,7 +286,6 @@ fn cat_files(
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Entry point
 fn main() {
     let cli = Cli::parse();
 
@@ -318,9 +313,28 @@ fn main() {
         process::exit(0);
     }
 
+    let out = cli.out.unwrap_or_else(|| {
+        eprintln!("error: the following required arguments were not provided:");
+        eprintln!("  --out <OUT>");
+        eprintln!();
+        eprintln!("Usage: mbombo --out <OUT> --files <FILE>...");
+        eprintln!();
+        eprintln!("For more information, try '--help'.");
+        process::exit(2);
+    });
+
+    let mut files = cli.files.unwrap_or_else(|| {
+        eprintln!("error: the following required arguments were not provided:");
+        eprintln!("  --files <FILE>...");
+        eprintln!();
+        eprintln!("Usage: mbombo --out <OUT> --files <FILE>...");
+        eprintln!();
+        eprintln!("For more information, try '--help'.");
+        process::exit(2);
+    });
+
     // Normalize paths
-    let mut files = cli.files.clone();
-    let (in_path, out_dir, out_file) = normalize_paths(cli.r#in.as_deref(), &mut files, &cli.out);
+    let (in_path, out_dir, out_file) = normalize_paths(cli.r#in.as_deref(), &mut files, &out);
 
     // Run the main forging operation
     if let Err(err) = cat_files(
