@@ -1,0 +1,10 @@
+[package]
+name = "mbombo"
+version = "3.0.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+clap_complete = "4"
+regex = "1"
+anyhow = "1"
