@@ -1,2 +1,8 @@
+segregate code base into lib & bin => reusable lib logic
+
+refactor flags into subcommands
+
+
+
 ==================================================
 ==================================================
