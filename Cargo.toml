@@ -7,8 +7,46 @@ readme = "README.md"
 description = "Forge by defining the materials, the destination & indicate pieces to replace"
 edition = "2024"
 
+[[bin]]
+name = "mb"
+path = "src/bin.rs"
+
+
+[lib]
+name = "lib"
+path = "src/lib.rs"
+
+
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
 regex = "1"
 anyhow = "1"
+
+
+[profile.dev]
+opt-level = 0
+debug = true
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 1
+
+
+[profile.release]
+strip = true
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+
+
+[profile.test]
+opt-level = 3
+debug = false
+rpath = false
+lto = false
+debug-assertions = false
+codegen-units = 1
