@@ -9,11 +9,11 @@ use regex::Regex;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-use crate::custom::Replacement;
+use crate::core;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pub fn apply_replacements(content: &str, replacements: &[Replacement]) -> String {
+pub fn apply_replacements(content: &str, replacements: &[core::Replacement]) -> String {
     let mut lines: Vec<String> = content.lines().map(|s| s.to_string()).collect();
 
     for rep in replacements {
@@ -98,7 +98,7 @@ pub fn cat_files(
     out_dir: PathBuf,
     out_file: &str,
     files: &[String],
-    replacements: &[Replacement],
+    replacements: &[core::Replacement],
     verbose: bool,
 ) -> Result<()> {
     let base_dir = in_path.unwrap_or_else(|| PathBuf::from("."));
