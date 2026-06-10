@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-use clap::Parser;
+use clap::{Parser, Subcommand, ValueEnum};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 use crate::HELP;
-use crate::custom::Replacement;
+use crate::core;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,6 +19,10 @@ use crate::custom::Replacement;
     long_about = HELP,
 )]
 pub struct Cli {
+    /// Subcommand (optional)
+    #[command(subcommand)]
+    pub command: Option<Commands>,
+
     /// Items to be forged (optional input directory)
     #[arg(long)]
     pub r#in: Option<String>,
@@ -34,19 +38,35 @@ pub struct Cli {
     /// Replacement in form old=new, space-separated.
     /// Append :line for whole line replacement, :token for token replacement (default)
     #[arg(long, value_name = "OLD=NEW[:mode]")]
-    pub replace: Vec<Replacement>,
+    pub replace: Vec<core::Replacement>,
 
     /// Enable verbose diagnostics
     #[arg(short = 'v', long)]
     pub verbose: bool,
+}
 
-    /// Show identity / myth
-    #[arg(long)]
-    pub identity: bool,
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /// Generate shell completions (bash, zsh, fish, powershell)
-    #[arg(long, value_name = "SHELL")]
-    pub completion: Option<String>,
+#[derive(Subcommand)]
+pub enum Commands {
+    /// Print identity
+    Identity,
+    /// Generate shell completions
+    Completion {
+        /// Shell for which to generate completions
+        #[arg(value_enum)]
+        shell: Shell,
+    },
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#[derive(Clone, Copy, ValueEnum)]
+pub enum Shell {
+    Bash,
+    Zsh,
+    Fish,
+    Powershell,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
