@@ -1,4 +1,4 @@
-# mbombo, forge your own path
+# daedalus, forge your own path
 
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
@@ -7,7 +7,7 @@
 Forge unified products from templates with intelligent text replacement
 
     ┌─────────────────────────────────────────────────────────────────────────────┐
-    │                                 mbombo                                      │
+    │                                 daedalus                                    │
     │                   Concatenate files with replacements                       │
     └─────────────────────────────────────────────────────────────────────────────┘
                                         │
@@ -64,25 +64,25 @@ Forge unified products from templates with intelligent text replacement
     │                                                                             │
     │  ╔═══════════════════════════════════════════════════════════════════════╗  │
     │  ║  Template Processing                                                  ║  │
-    │  ║  mbombo --files template.tmpl --out config.txt \                      ║  │
+    │  ║  dd --files template.tmpl --out config.txt \                          ║  │
     │  ║      --replace VERSION=1.0.0,API_URL=https://api.example.com          ║  │
     │  ╚═══════════════════════════════════════════════════════════════════════╝  │
     │                                                                             │
     │  ╔═══════════════════════════════════════════════════════════════════════╗  │
     │  ║  File Concatenation                                                   ║  │
-    │  ║  mbombo --files header.html body.html footer.html       \             ║  │
+    │  ║  dd --files header.html body.html footer.html       \                 ║  │
     │  ║      --out website/page.html                                          ║  │
     │  ╚═══════════════════════════════════════════════════════════════════════╝  │
     │                                                                             │
     │  ╔═══════════════════════════════════════════════════════════════════════╗  │
     │  ║  Code Cleanup                                                         ║  │
-    │  ║  mbombo --files script.js --out script.min.js \                       ║  │
+    │  ║  dd --files script.js --out script.min.js \                           ║  │
     │  ║      --replace console.log=:line,DEBUG=false                          ║  │
     │  ╚═══════════════════════════════════════════════════════════════════════╝  │
     │                                                                             │
     │  ╔═══════════════════════════════════════════════════════════════════════╗  │
     │  ║  Version Bumping                                                      ║  │
-    │  ║  mbombo --files README.md --out README.md \                           ║  │
+    │  ║  dd --files README.md --out README.md \                               ║  │
     │  ║      --replace v0.0.0=v1.2.3                                          ║  │
     │  ╚═══════════════════════════════════════════════════════════════════════╝  │
     │                                                                             │
