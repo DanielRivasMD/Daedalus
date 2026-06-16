@@ -37,7 +37,7 @@ _default:
 install:
   @echo "\n\033[1;33mInstalling\033[0;37m...\n=================================================="
   cargo install --path .
-  mb --completion zsh > $HOME/.config/zsh_completion/_mb
+  dd completion zsh > $HOME/.config/zsh_completion/_dd
 
 ####################################################################################################
 
