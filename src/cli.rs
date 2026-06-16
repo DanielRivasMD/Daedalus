@@ -4,14 +4,24 @@ use clap::{Parser, Subcommand, ValueEnum};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-use crate::HELP;
 use crate::core;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const HELP: &str = r"Command line file forger
+
+Examples:
+  dd --files header.html footer.html --out output/page.html
+  dd --files config.tmpl --out config.json --replace VERSION=1.0.0 API_URL=https://api.example.com
+  dd --in templates/ --files base.tmpl nav.tmpl --out build/index.html --replace {{YEAR}}=2026:token {{AUTHOR}}=Daniel:token
+  dd --files script.js --out dist/script.min.js --replace console.log=:line
+  dd --files README.md --out README.md --replace v0.0.0=v1.2.3";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Parser)]
 #[command(
-    name = env!("CARGO_PKG_NAME"),
+    name = env!("CARGO_BIN_NAME"),
     version = env!("CARGO_PKG_VERSION"),
     author = env!("CARGO_PKG_AUTHORS"),
     about = env!("CARGO_PKG_DESCRIPTION"),
@@ -21,7 +31,7 @@ use crate::core;
 pub struct Cli {
     /// Subcommand (optional)
     #[command(subcommand)]
-    pub command: Option<Commands>,
+    pub command: Option<Command>,
 
     /// Items to be forged (optional input directory)
     #[arg(long)]
@@ -48,10 +58,13 @@ pub struct Cli {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Subcommand)]
-pub enum Commands {
+pub enum Command {
     /// Print identity
+    #[command(hide = true)]
     Identity,
+
     /// Generate shell completions
+    #[command(hide = true)]
     Completion {
         /// Shell for which to generate completions
         #[arg(value_enum)]
