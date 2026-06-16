@@ -2,26 +2,21 @@
 name = "daedalus"
 version = "3.1.0"
 authors = ["Daniel Rivas <danielrivasmd@gmail.com>"]
-repository = "https://github.com/DanielRivasMD/Mbombo"
+repository = "https://github.com/DanielRivasMD/Daedalus"
 readme = "README.md"
 description = "Forge by defining the materials, the destination & indicate pieces to replace"
 edition = "2024"
 
 [[bin]]
 name = "dd"
-path = "src/bin.rs"
-
-
-[lib]
-name = "lib"
-path = "src/lib.rs"
+path = "src/main.rs"
 
 
 [dependencies]
+anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
 regex = "1"
-anyhow = "1"
 
 
 [profile.dev]
