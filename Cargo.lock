@@ -129,7 +129,7 @@ dependencies = [
  "anyhow",
  "clap",
  "clap_complete",
- "regex",
+ "issac",
 ]
 
 [[package]]
@@ -143,6 +143,13 @@ name = "is_terminal_polyfill"
 version = "1.70.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a6cb138bb79a146c1bd460005623e142ef0181e3d0219cb493e02f7d08a35695"
+
+[[package]]
+name = "issac"
+version = "0.1.0"
+dependencies = [
+ "regex",
+]
 
 [[package]]
 name = "memchr"
