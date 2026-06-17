@@ -1,48 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+use anyhow::{Context, Result};
 use std::fs;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
-
-use anyhow::{Context, Result};
-use regex::Regex;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-use crate::core;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-pub fn apply_replacements(content: &str, replacements: &[core::Replacement]) -> String {
-    let mut lines: Vec<String> = content.lines().map(|s| s.to_string()).collect();
-
-    for rep in replacements {
-        let re = if rep.mode == "line" {
-            let pattern = format!(r"\b{}\b", regex::escape(&rep.old));
-            Regex::new(&pattern).ok()
-        } else {
-            None
-        };
-
-        for line in &mut lines {
-            match rep.mode.as_str() {
-                "line" => {
-                    if let Some(ref regex) = re {
-                        if regex.is_match(line) {
-                            *line = rep.new.clone();
-                        }
-                    }
-                }
-                _ => {
-                    // token mode (default)
-                    *line = line.replace(&rep.old, &rep.new);
-                }
-            }
-        }
-    }
-
-    lines.join("\n")
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +59,7 @@ pub fn cat_files(
     out_dir: PathBuf,
     out_file: &str,
     files: &[String],
-    replacements: &[core::Replacement],
+    replacements: &[issac::Replacement],
     verbose: bool,
 ) -> Result<()> {
     let base_dir = in_path.unwrap_or_else(|| PathBuf::from("."));
@@ -167,7 +128,7 @@ pub fn cat_files(
         let raw = fs::read_to_string(src_path)
             .with_context(|| format!("failed to read source file {}", src_path.display()))?;
 
-        let content = apply_replacements(&raw, replacements);
+        let content = issac::apply_replacements(&raw, replacements);
         let trimmed = content.trim_end_matches('\n');
         writeln!(writer, "{}", trimmed)
             .with_context(|| format!("failed to write to out file {}", out_full.display()))?;
