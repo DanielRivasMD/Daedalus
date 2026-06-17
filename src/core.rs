@@ -50,7 +50,7 @@ pub fn run(cli: cli::Cli) -> anyResult<()> {
         eprintln!();
         eprintln!(
             "Usage: {} --out <OUT> --files <FILE>...",
-            env!("CARGO_PKG_NAME")
+            env!("CARGO_BIN_NAME")
         );
         eprintln!();
         eprintln!("For more information, try '--help'.");
@@ -63,7 +63,7 @@ pub fn run(cli: cli::Cli) -> anyResult<()> {
         eprintln!();
         eprintln!(
             "Usage: {} --out <OUT> --files <FILE>...",
-            env!("CARGO_PKG_NAME")
+            env!("CARGO_BIN_NAME")
         );
         eprintln!();
         eprintln!("For more information, try '--help'.");
