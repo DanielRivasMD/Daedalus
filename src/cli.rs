@@ -4,10 +4,6 @@ use clap::{Parser, Subcommand, ValueEnum};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-use crate::core;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 const HELP: &str = r"Command line file forger
 
 Examples:
@@ -48,7 +44,7 @@ pub struct Cli {
     /// Replacement in form old=new, space-separated.
     /// Append :line for whole line replacement, :token for token replacement (default)
     #[arg(long, value_name = "OLD=NEW[:mode]")]
-    pub replace: Vec<core::Replacement>,
+    pub replace: Vec<issac::Replacement>,
 
     /// Enable verbose diagnostics
     #[arg(short = 'v', long)]
@@ -61,6 +57,7 @@ pub struct Cli {
 pub enum Command {
     /// Print identity
     #[command(hide = true)]
+    #[command(aliases = &["id"])]
     Identity,
 
     /// Generate shell completions
