@@ -1,15 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+use anyhow::Result as anyResult;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 pub mod completion {
 
-    use anyhow::Result as anyResult;
     use clap::{Command, CommandFactory};
     use clap_complete::{generate, shells::*};
     use std::io;
 
     use crate::cli;
 
-    pub fn run(shell: cli::Shell) -> anyResult<()> {
+    pub fn run(shell: cli::Shell) -> super::anyResult<()> {
         let visible: Vec<_> = cli::Cli::command()
             .get_subcommands()
             .filter(|s| !s.is_hide_set())
@@ -33,11 +36,9 @@ pub mod completion {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 pub mod identity {
-    use anyhow::Result as anyResult;
-
     const IDENTITY: &str = r#""#;
 
-    pub fn run() -> anyResult<()> {
+    pub fn run() -> super::anyResult<()> {
         println!("{}", IDENTITY);
         Ok(())
     }
