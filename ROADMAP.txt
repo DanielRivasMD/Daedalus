@@ -1,6 +1,4 @@
-segregate code base into lib & bin => reusable lib logic -> upgrade v4.0.0
-
-refactor flags into subcommands
+upgrade v4.0.0
 
 
 
