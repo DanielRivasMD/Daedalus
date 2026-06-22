@@ -37,7 +37,7 @@ pub mod completion {
 
 pub mod identity {
     const IDENTITY: &str = r#"
-In Greek mythology, Daedalus (UK: /ˈdiːdələs/, US: /ˈdɛdələs/; Greek:
+In Greek mythology, Daedalus (English: /ˈdɛdələs/; Greek:
 Δαίδαλος; Latin: Daedalus; Etruscan: Taitale) was a skillful architect and
 craftsman, seen as a symbol of wisdom, knowledge and power. He is the father
 of Icarus, the uncle of Perdix, and possibly also the father of Iapyx.
