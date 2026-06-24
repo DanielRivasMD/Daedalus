@@ -7,7 +7,7 @@ keywords = []
 categories = []
 readme = "README.md"
 description = "Forge by defining the materials, the destination & indicate pieces to replace"
-edition = "2024"
+edition.workspace = true
 
 [[bin]]
 name = "dd"
@@ -20,3 +20,4 @@ issac = { path = "../issac" }
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
+colored = "3"
