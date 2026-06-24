@@ -20,7 +20,6 @@ pub mod completion {
             .collect();
 
         let mut cmd = Command::new(env!("CARGO_BIN_NAME")).subcommands(visible);
-
         let name = cmd.get_name().to_string();
 
         match shell {
@@ -36,15 +35,16 @@ pub mod completion {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 pub mod identity {
-    const IDENTITY: &str = r#"
-In Greek mythology, Daedalus (English: /ˈdɛdələs/; Greek:
-Δαίδαλος; Latin: Daedalus; Etruscan: Taitale) was a skillful architect and
-craftsman, seen as a symbol of wisdom, knowledge and power. He is the father
-of Icarus, the uncle of Perdix, and possibly also the father of Iapyx.
-"#;
+    use colored::*;
 
     pub fn run() -> super::anyResult<()> {
-        println!("{}", IDENTITY);
+        println!(
+            "In Greek mythology, {Daedalus}, {greek_daedalus}, was a skillful architect and
+craftsman, seen as a symbol of wisdom, knowledge and power. He is the father
+of Icarus, the uncle of Perdix, and possibly also the father of Iapyx.",
+            Daedalus = "Daedalus".cyan(),
+            greek_daedalus = "Δαίδαλος".dimmed().italic(),
+        );
         Ok(())
     }
 }
