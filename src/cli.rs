@@ -47,7 +47,7 @@ pub struct Cli {
     pub replace: Vec<issac::Replacement>,
 
     /// Enable verbose diagnostics
-    #[arg(short, long, global = true)]
+    #[arg(global = true, short, long)]
     pub verbose: bool,
 }
 
