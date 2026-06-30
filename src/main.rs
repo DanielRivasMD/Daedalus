@@ -5,10 +5,6 @@ use clap::Parser;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-use cli::{Cli, Command};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 mod cli;
 mod cmd;
 mod core;
@@ -17,12 +13,12 @@ mod util;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 fn main() -> anyResult<()> {
-    let cli = Cli::parse();
+    let cli = cli::Cli::parse();
 
     match cli.command {
         None => core::run(cli)?,
-        Some(Command::Identity) => cmd::identity::run()?,
-        Some(Command::Completion { shell }) => cmd::completion::run(shell)?,
+        Some(cli::Command::Identity) => cmd::identity::run()?,
+        Some(cli::Command::Completion { shell }) => cmd::completion::run(shell)?,
     }
     Ok(())
 }
