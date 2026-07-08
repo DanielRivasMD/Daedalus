@@ -14,7 +14,6 @@ mod util;
 
 fn main() -> anyResult<()> {
     let cli = cli::Cli::parse();
-
     match cli.command {
         None => core::run(cli)?,
         Some(cli::Command::Identity) => cmd::identity::run()?,

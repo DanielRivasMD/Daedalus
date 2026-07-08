@@ -11,7 +11,7 @@ use crate::util;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 pub fn run(cli: cli::Cli) -> anyResult<()> {
-    // Forging mode – validate required flags
+    // Forging mode - validate required flags
     let out = cli.out.unwrap_or_else(|| {
         eprintln!("error: the following required arguments were not provided:");
         eprintln!("  --out <OUT>");
